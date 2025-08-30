@@ -1,0 +1,24 @@
+# Core framework
+Django>=5.2,<5.3
+
+# REST API
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.3
+
+django-filter>=24.3
+
+django-cors-headers>=4.4
+
+# Media handling for ImageField/FileField
+Pillow>=10.0
+
+# WebSockets/Channels
+channels>=4.0
+# ASGI server for Channels/WebSockets
+daphne>=4.0
+
+# SMS (for OTP)
+twilio>=9.0
+
+# Rich text editor for blog content
+django-ckeditor>=6.7

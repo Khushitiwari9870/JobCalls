@@ -1,0 +1,23 @@
+job industry 
+slug
+job sub industry
+job functional area
+job state
+job city
+title
+job type
+companyName
+companyLOgo
+Numberofopenings
+salary type
+salary
+gender
+experience
+required skills
+working shift
+education
+description
+location
+seo title
+seo keyword
+seo description
