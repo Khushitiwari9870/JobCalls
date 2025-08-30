@@ -5,14 +5,13 @@ import { SiTcs } from "react-icons/si";
 import { SiTata } from "react-icons/si";
 import { MdPhoneForwarded } from "react-icons/md";
 
-
-
-export default function HomePage() {
+// Accept a prop to trigger Employer Login navigation
+export default function HomePage({ onEmployerLogin }) {
   return (
-    <div className="w-full min-h-screen bg-blue-300">
+    <div className="w-full min-h-screen bg-gray-200">
   
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 py-3 shadow-md bg-white">
+      <nav className="flex items-center justify-between px-6 py-3 shadow-md bg-white animate__animated animate__fadeInDown">
         {/* Logo */}
         <div className="flex items-end space-x-1">
    
@@ -45,7 +44,12 @@ export default function HomePage() {
 
         {/* Right Side Buttons */}
         <div className="flex items-center space-x-4">
-          <button className="text-gray-700 hover:text-green-600">Employer Login</button>
+          <button
+            className="text-gray-700 hover:text-green-600"
+            onClick={() => onEmployerLogin && onEmployerLogin()}
+          >
+            Employer Login
+          </button>
           <button className="bg-green-600 text-white px-4 py-1.5 rounded-md hover:bg-green-700">
             Candidate Login
           </button>
@@ -53,7 +57,7 @@ export default function HomePage() {
       </nav>
 
       {/* Blue Banner */}
-      <div className="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+      <div className="flex items-center justify-between px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white animate__animated animate__fadeIn">
         <div className="flex items-center space-x-2 font-semibold">
           <span className="bg-white text-blue-600 text-xs px-2 py-0.5 rounded">ai</span>
           <span>Job Prep</span>
@@ -78,19 +82,19 @@ export default function HomePage() {
      
 
       {/* Hero Section */}
-      <section className="flex flex-col-reverse lg:flex-row items-center gap-10 px-6 lg:px-20 py-12 max-w-7xl mx-auto">
+      <section className="flex flex-col-reverse lg:flex-row items-center gap-10 px-6 lg:px-20 py-12 max-w-7xl mx-auto animate__animated animate__fadeInUp">
         {/* Left Side Text */}
         <div className="w-full lg:w-1/2 space-y-4 text-center lg:text-left">
-          <h4 className="text-green-700 font-semibold text-sm md:text-base">INDIA'S #1 JOB PLATFORM</h4>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 leading-tight">
+          <h4 className="text-green-700 font-semibold text-sm md:text-base animate__animated animate__fadeInUp" style={{ animationDelay: "0.05s" }}>INDIA'S #1 JOB PLATFORM</h4>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800 leading-tight animate__animated animate__fadeInUp" style={{ animationDelay: "0.15s" }}>
             Your job search ends here
           </h1>
-          <p className="text-gray-600 text-base md:text-lg">
+          <p className="text-gray-600 text-base md:text-lg animate__animated animate__fadeInUp" style={{ animationDelay: "0.3s" }}>
             Discover 50 lakh+ career opportunities
           </p>
 
           {/* Search Bar */}
-          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mt-6">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mt-6 animate__animated animate__fadeInUp" style={{ animationDelay: "0.45s" }}>
             <input
               type="text"
               placeholder="Search jobs by 'title'"
@@ -113,7 +117,7 @@ export default function HomePage() {
         </div>
 
         {/* Right Side Image */}
-        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end animate__animated animate__fadeIn" style={{ animationDelay: "0.6s" }}>
           <img
             src={"https://freepngimg.com/save/13358-happy-person-free-download-png/275x261"}
             alt="Homepage visual"
