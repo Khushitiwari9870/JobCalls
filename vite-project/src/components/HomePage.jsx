@@ -5,8 +5,8 @@ import { SiTcs } from "react-icons/si";
 import { SiTata } from "react-icons/si";
 import { MdPhoneForwarded } from "react-icons/md";
 
-// Accept a prop to trigger Employer Login navigation
-export default function HomePage({ onEmployerLogin }) {
+// Accept props to trigger navigation
+export default function HomePage({ onEmployerLogin, onAuth }) {
   return (
     <div className="w-full min-h-screen bg-gray-200">
   
@@ -16,10 +16,7 @@ export default function HomePage({ onEmployerLogin }) {
         <div className="flex items-end space-x-1">
    
 
-          <span className="text-blue-600 text-5xl font-bold">JOBS </span>
-             <MdPhoneForwarded className="text-green-600 w-8 h-8" />
-            
-             <span className="text-red-500 text-3xl relative top-2  font-bold">CALL </span>
+            <img src="/src/assets/Jobcalls logo (1).png " alt="" className="w-20 h-10" />
              
         </div>
         
@@ -46,7 +43,7 @@ export default function HomePage({ onEmployerLogin }) {
         <div className="flex items-center space-x-4">
           <button
             className="text-gray-700 hover:text-green-600"
-            onClick={() => onEmployerLogin && onEmployerLogin()}
+            onClick={() => (onAuth ? onAuth() : onEmployerLogin && onEmployerLogin())}
           >
             Employer Login
           </button>

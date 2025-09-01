@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 /**
  * Apna-like Homepage
@@ -7,8 +7,28 @@ import React, { useState, useEffect } from "react";
  * - Hero: left image + copy; right employer login form
  * - Stats row
  */
-export default function ApnaHome({ onBack }) {
+export default function ApnaHome({ onBack, onAuth }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const authTriggerRef = useRef(null);
+
+  // Local state for "Let's get started" OTP form
+  const [phone, setPhone] = useState("");
+  const [touched, setTouched] = useState(false);
+  const isValid = phone.length === 10;
+  const showError = touched && !isValid;
+
+  const onChangePhone = (e) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+    setPhone(digits);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setTouched(true);
+    if (!isValid) return;
+    console.log("Sending OTP to +91", phone);
+    setTimeout(() => console.log("OTP sent!"), 600);
+  };
 
   useEffect(() => {
     const onKey = (e) => e.key === "Escape" && setMobileOpen(false);
@@ -52,7 +72,7 @@ export default function ApnaHome({ onBack }) {
           {/* Left: Logo */}
           <a href="#" className="flex items-center gap-3" aria-label="apna home">
             <div className="w-12 h-10 md:w-14 md:h-14 rounded-xl bg-blue  border-black flex items-center justify-center text-blue text-lg font-bold ">
-              <img src="/src/assets/Jobcalls logo (1).png " alt="" />
+              <img src="/src/assets/Jobcalls logo (1).png " alt="" className="w-20 h-10" />
             </div>
             <span className="text-lg md:text-2xl font-semibold tracking-wide"></span>
           </a>
@@ -94,9 +114,11 @@ export default function ApnaHome({ onBack }) {
               Contact us
             </button>
             <button
+              ref={authTriggerRef}
+              onClick={() => (onAuth ? onAuth() : setAuthOpen(true))}
               className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold bg-[#1ea97a] text-white hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-shadow"
             >
-              Login/Sign up
+              Sign up / Login
             </button>
           </div>
 
@@ -143,7 +165,7 @@ export default function ApnaHome({ onBack }) {
               <div className="flex items-center justify-between h-[56px]">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-blue border-white/10 flex items-center justify-center text-blue text-lg font-bold">
-                    ◆
+                    
                   </div>
                   <span className="text-blue text-lg font-semibold">JOBS</span>
                 </div>
@@ -212,7 +234,7 @@ export default function ApnaHome({ onBack }) {
                 >
                   Hire your{" "}
                   <span className="text-green-400">dream team</span>{" "}
-                  with apna
+                  with Jobscall
                 </h1>
                 <p
                   className="mt-4 text-slate-200/90 text-base sm:text-lg leading-relaxed animate__animated animate__fadeInUp"
@@ -225,54 +247,58 @@ export default function ApnaHome({ onBack }) {
               </div>
             </div>
 
-            {/* Right: Employer Login card */}
+            {/* Right: Let's get started form (OTP) */}
             <div className="order-1 lg:order-2">
-              <div className="rounded-2xl bg-white/5 border border-white/10 shadow-xl backdrop-blur-md p-5 sm:p-6 md:p-7">
-                <h2 className="text-2xl md:text-3xl font-bold">Let’s get started</h2>
-                <p className="text-slate-200/90 mt-1">Hire top talent faster with apna</p>
+              <div className="bg-white border border-slate-200 rounded-xl shadow-xl p-6 sm:p-7">
+                <h2 className="text-2xl font-bold text-slate-900">Let’s get started</h2>
+                <p className="text-slate-600 mt-1">Hire top talent faster with Jobscall</p>
 
-                <label className="block text-sm font-semibold mt-5" htmlFor="mobile">
-                  Mobile number
-                </label>
-                <input
-                  id="mobile"
-                  type="tel"
-                  inputMode="numeric"
-                  pattern="[0-9]{10}"
-                  maxLength={10}
-                  placeholder="Enter 10 digit mobile number"
-                  className="mt-2 w-full rounded-md bg-white text-slate-900 placeholder-slate-500 px-3 py-2.5 outline-none focus:ring-2 focus:ring-[#1ea97a] shadow-sm"
-                />
+                <form onSubmit={onSubmit} className="mt-5">
+                  <label htmlFor="mobile" className="block text-sm font-medium text-slate-900">Mobile number</label>
+                  <div className={["mt-1 flex items-center rounded-lg border", showError ? "border-red-500" : "border-emerald-700", "focus-within:ring-2 focus-within:ring-emerald-700 bg-white"].join(" ")}
+                  >
+                    <span className="pl-3 pr-2 text-slate-700 select-none">+91</span>
+                    <input
+                      id="mobile"
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel"
+                      className="w-full flex-1 bg-white placeholder-slate-400 text-slate-900 outline-none px-3 py-2 rounded-r-md"
+                      placeholder="Enter your mobile number"
+                      value={phone}
+                      onChange={onChangePhone}
+                      onBlur={() => setTouched(true)}
+                      aria-invalid={showError ? "true" : "false"}
+                      aria-describedby="mobile-error mobile-help"
+                    />
+                  </div>
+                  <div id="mobile-help" className="sr-only">Enter a 10 digit Indian mobile number</div>
+                  <p id="mobile-error" className={["mt-1 text-sm", showError ? "text-red-600" : "sr-only"].join(" ")} aria-live="polite">Please enter a valid 10-digit mobile number.</p>
 
-                <button
-                  className="mt-4 w-full inline-flex items-center justify-center rounded-md bg-[#1ea97a] text-white font-semibold px-4 py-2.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                >
-                  Continue
-                </button>
+                  <button type="submit" disabled={!isValid} className={["mt-4 w-full inline-flex items-center justify-center rounded-lg px-4 py-3 text-white text-sm font-semibold","bg-emerald-500 hover:bg-emerald-600","disabled:opacity-60 disabled:cursor-not-allowed","focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"].join(" ")}>
+                    Send OTP
+                  </button>
 
-                <div className="my-5 flex items-center gap-4 text-black">
-                  <div className="h-px w-full bg-black" />
-                  <span className="text-xs">OR</span>
-                  <div className="h-px w-full bg-black" />
-                </div>
+                  {/* Divider OR */}
+                  <div className="my-6 flex items-center gap-4 text-slate-400">
+                    <div className="h-px w-full bg-slate-200" />
+                    <span className="text-xs">OR</span>
+                    <div className="h-px w-full bg-slate-200" />
+                  </div>
 
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 font-semibold underline underline-offset-2"
-                >
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </span>
-                  Click here for Enterprise login
-                </a>
+                  {/* Enterprise login link with icon */}
+                  <button type="button" onClick={() => onAuth && onAuth()} className="inline-flex items-center gap-2 text-emerald-900 underline underline-offset-2">
+                    <span aria-hidden="true">🏢</span>
+                    Click here for Enterprise login
+                  </button>
 
-                <p className="mt-4 text-xs text-black">
-                  By clicking continue, you agree to the apna{" "}
-                  <a href="#" className="underline" >Terms of service</a> &{" "}
-                  <a href="#" className="underline">Privacy policy</a>
-                </p>
+                  {/* Terms note */}
+                  <p className="mt-6 text-xs text-slate-600">
+                    By clicking continue, you agree to the Jobscall {" "}
+                    <a href="#" className="underline">Terms of service</a> & {" "}
+                    <a href="#" className="underline">Privacy policy</a>.
+                  </p>
+                </form>
               </div>
             </div>
           </div>
