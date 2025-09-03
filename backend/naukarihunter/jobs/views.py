@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Job, Application, Company
-from .serializers import JobSerializer, ApplicationSerializer, CompanySerializer
+from .models import Job, Application, Company , Blog
+from .serializers import JobSerializer, ApplicationSerializer, CompanySerializer , BlogSerializer
 from .permissions import IsEmployerOrReadOnly
 
 
@@ -44,6 +44,26 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()  # Base queryset for DRF router basename resolution
     serializer_class = CompanySerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['location']
+    search_fields = ['name', 'location']
+    ordering_fields = ['created_at']
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return Company.objects.none()
+        # Employers see their own companies; jobseekers can only read (but we keep ownership scope)
+        return Company.objects.filter(owner=user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class BlogViewSet(viewsets.ModelViewSet):
+    queryset = Blog.objects.all()  # Base queryset for DRF router basename resolution
+    serializer_class = BlogSerializer
+    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['location']
     search_fields = ['name', 'location']

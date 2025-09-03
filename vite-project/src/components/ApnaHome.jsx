@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from "react";
  * - Hero: left image + copy; right employer login form
  * - Stats row
  */
-export default function ApnaHome({ onBack, onAuth }) {
+export default function ApnaHome({ onBack, onAuth, onEnterprise, onContact, onAbout }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const authTriggerRef = useRef(null);
@@ -72,7 +72,7 @@ export default function ApnaHome({ onBack, onAuth }) {
           {/* Left: Logo */}
           <a href="#" className="flex items-center gap-3" aria-label="apna home">
             <div className="w-12 h-10 md:w-14 md:h-14 rounded-xl bg-blue  border-black flex items-center justify-center text-blue text-lg font-bold ">
-              <img src="/src/assets/Jobcalls logo (1).png " alt="" className="w-20 h-10" />
+              <img src="/src/assets/Jobcalls logo (1).png" alt="JobsCalls" className="h-10" />
             </div>
             <span className="text-lg md:text-2xl font-semibold tracking-wide"></span>
           </a>
@@ -82,6 +82,7 @@ export default function ApnaHome({ onBack, onAuth }) {
             {[
               { label: "Product", href: "#" },
               { label: "Enterprise", href: "#" },
+              { label: "About", href: "#", onClick: onAbout },
               { label: "Blogs", href: "#" },
               { label: "Pricing", href: "#" },
               { label: "Looking for a job ↗", href: "#", external: true },
@@ -91,7 +92,13 @@ export default function ApnaHome({ onBack, onAuth }) {
                   href={i.href}
                   target={i.external ? "_blank" : undefined}
                   rel={i.external ? "noopener noreferrer" : undefined}
-                  className="font-medium hover:text-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
+                  className="font-medium hover:text-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded cursor-pointer"
+                  onClick={(e) => {
+                    if (i.onClick) {
+                      e.preventDefault();
+                      i.onClick();
+                    }
+                  }}
                 >
                   {i.label}
                 </a>
@@ -110,6 +117,7 @@ export default function ApnaHome({ onBack, onAuth }) {
             </button>
             <button
               className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-black bg-transparent  border-white/20 border-[1.5px] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-shadow"
+              onClick={() => onContact && onContact()}
             >
               Contact us
             </button>
@@ -195,7 +203,12 @@ export default function ApnaHome({ onBack, onAuth }) {
                     href="#"
                     role="menuitem"
                     className="block rounded-2xl px-4 py-3 font-medium text-slate-100 hover:text-white hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
-                    onClick={() => setMobileOpen(false)}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      if (label === "Contact Us") {
+                        onContact && onContact();
+                      }
+                    }}
                   >
                     {label}
                   </a>
@@ -287,7 +300,7 @@ export default function ApnaHome({ onBack, onAuth }) {
                   </div>
 
                   {/* Enterprise login link with icon */}
-                  <button type="button" onClick={() => onAuth && onAuth()} className="inline-flex items-center gap-2 text-emerald-900 underline underline-offset-2">
+                  <button type="button" onClick={() => onEnterprise ? onEnterprise() : onAuth && onAuth()} className="inline-flex items-center gap-2 text-emerald-900 underline underline-offset-2">
                     <span aria-hidden="true">🏢</span>
                     Click here for Enterprise login
                   </button>
@@ -307,7 +320,7 @@ export default function ApnaHome({ onBack, onAuth }) {
           <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { big: "6 Crore +", small: "Qualified candidates" },
-              { big: "7 Lakh +", small: "Employers use apna" },
+              { big: "7 Lakh +", small: "Employers use Jobscall" },
               { big: "900 +", small: "Available cities" },
             ].map((s, idx) => (
               <div

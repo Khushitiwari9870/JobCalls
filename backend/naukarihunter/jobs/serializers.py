@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Job, Application, Company
+from .models import Job, Application, Company , Blog
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -55,3 +55,13 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'status', 'applied_at'
         ]
         read_only_fields = ['applicant', 'applied_at']
+
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = [
+            'id', 'title', 'slug', 'image', 'description',
+            'seo_title', 'seo_keyword', 'seo_description',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['slug', 'created_at', 'updated_at']

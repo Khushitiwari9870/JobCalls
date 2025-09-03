@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
  * ApnaAuth (page)
  * Two-column layout: hero left, auth card right
  */
-export default function ApnaAuth() {
+export default function ApnaAuth({ onEnterprise, onBack }) {
   const [phone, setPhone] = useState("");
   const [touched, setTouched] = useState(false);
   const firstInputRef = useRef(null);
@@ -33,10 +33,32 @@ export default function ApnaAuth() {
     <div className="min-h-screen bg-[#f7f7f5] text-slate-900">
       <header className="h-16 flex items-center">
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center">
-            {/* <div aria-label="jobscall logo" className="h-8 w-8 rounded-md bg-white shadow border border-slate-200 grid place-items-center text-xs font-semibold">apna</div> */}
-            {/* <span className="sr-only">Jobscall</span> */}
-            <img src="/src/assets/Jobcalls logo (1).png " alt="" className="h-10 ml-2" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {/* <div aria-label="jobscall logo" className="h-8 w-8 rounded-md bg-white shadow border border-slate-200 grid place-items-center text-xs font-semibold">apna</div> */}
+              {/* <span className="sr-only">Jobscall</span> */}
+              <img src="/src/assets/Jobcalls logo (1).png" alt="JobsCalls" className="h-10" />
+            </div>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => onEnterprise && onEnterprise()}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:border-blue-300 hover:text-blue-800 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                </svg>
+                Sign In with Enterprise Email
+              </button>
+              <button 
+                onClick={onBack}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 hover:text-slate-900 transition-all duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -62,7 +84,7 @@ export default function ApnaAuth() {
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-emerald-700">7 lakhs+</div>
-                <div className="text-slate-600 text-sm mt-1">Employers use apna</div>
+                <div className="text-slate-600 text-sm mt-1">Employers use Jobscall</div>
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-extrabold text-emerald-700">900+</div>
@@ -110,10 +132,10 @@ export default function ApnaAuth() {
                   <div className="h-px w-full bg-slate-200" />
                 </div>
 
-                <a href="#" className="inline-flex items-center gap-2 text-emerald-900 underline underline-offset-2">
+                <button type="button" onClick={() => onEnterprise && onEnterprise()} className="inline-flex items-center gap-2 text-emerald-900 underline underline-offset-2">
                   <span aria-hidden="true">🏢</span>
                   Click here for Enterprise login
-                </a>
+                </button>
 
                 <p className="mt-6 text-xs text-slate-600">
                   By clicking continue, you agree to the Jobscall {" "}
